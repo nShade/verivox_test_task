@@ -1,3 +1,4 @@
+host: https://service.verivox.de/
 postcodes:
   - value: 10409
     cities:
