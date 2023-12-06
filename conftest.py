@@ -5,6 +5,8 @@ from _pytest.config import filename_arg, UsageError
 from pytest import fixture, Config, StashKey
 from yaml.parser import ParserError
 
+from api_wrapper.address_checking_service_client import AddressCheckingServiceClient
+
 config_file_key = StashKey["ConfigFile"]()
 
 
@@ -25,7 +27,7 @@ class ConfigFilePlugin:
             with open(path, 'r', encoding='utf-8') as config_file:
                 self.config = yaml.safe_load(config_file)
         except (FileNotFoundError, ParserError) as err:
-            raise RuntimeError('Error loading config file.') from err
+            raise RuntimeError('Error loading config file') from err
 
 
 def pytest_configure(config: Config) -> None:
@@ -62,5 +64,10 @@ def config(pytestconfig: Config):
 
 
 @fixture(scope='session')
-def host(config):
+def host(config) -> str:
     return config['host']
+
+
+@fixture(scope='session')
+def api_client(host) -> AddressCheckingServiceClient:
+    return AddressCheckingServiceClient(host)
