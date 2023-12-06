@@ -54,13 +54,7 @@ def config(pytestconfig: Config):
     Returns configuration object loaded from the configuration file
     """
     config_file_plugin = pytestconfig.stash.get(config_file_key, None)
-
-    config = {}
-
-    if config_file_plugin:
-        config = config | config_file_plugin.config
-
-    return config
+    return config_file_plugin.config
 
 
 @fixture(scope='session')

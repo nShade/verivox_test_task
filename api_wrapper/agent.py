@@ -1,5 +1,4 @@
 import logging
-from http import HTTPMethod
 import requests
 
 logger = logging.getLogger(__name__)
@@ -47,4 +46,4 @@ class APIAgent(requests.Session):
         return response
 
     def get(self, endpoint: str, **kwargs):
-        return self.request(HTTPMethod.GET, endpoint, **kwargs)
+        return self.request('GET', endpoint, **kwargs)

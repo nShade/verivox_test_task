@@ -1,3 +1,4 @@
 requests
 pytest
 pyyaml
+pytest-html
