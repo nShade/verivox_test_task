@@ -1,6 +1,8 @@
 from pytest import mark, fixture, FixtureRequest
 from http import HTTPStatus
 
+from assertions.assert_json import assert_json
+
 
 @fixture
 def streets(request: FixtureRequest, config):
@@ -21,6 +23,7 @@ def test_get_cities(postcode, cities, api_client):
     """
     resp = api_client.get_cities(postcode=postcode)
     assert resp.status_code == HTTPStatus.OK, 'Response code is not as expected'
+    assert 'application/json' in resp.headers.get('Content-Type', ''), 'Content type is not as expected'
     assert resp.json() == {'Cities': cities}, 'Response is not as expected'
 
 
@@ -33,6 +36,7 @@ def test_get_cities_not_found(api_client):
     INVALID_POSTCODE = '22333'
     resp = api_client.get_cities(postcode=INVALID_POSTCODE)
     assert resp.status_code == HTTPStatus.NOT_FOUND, 'Response code is not as expected'
+    assert resp.headers.get('Content-Type', '') == '', 'Content type is not as expected'
     assert resp.content == b'', 'Response is not as expected'
 
 
@@ -50,4 +54,5 @@ def test_get_streets(postcode, city, streets, api_client):
     """
     resp = api_client.get_streets(postcode=postcode, city=city)
     assert resp.status_code == HTTPStatus.OK, 'Response code is not as expected'
-    assert resp.json() == {'Streets': streets}, 'Response is not as expected'
+    assert 'application/json' in resp.headers.get('Content-Type', ''), 'Content type is not as expected'
+    assert_json(resp.json(), {'Streets': streets}, 'Response is not as expected')

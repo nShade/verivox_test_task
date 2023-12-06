@@ -1,6 +1,7 @@
 import functools
 import yaml
 from _pytest.config import filename_arg, UsageError
+from deepdiff import DeepDiff
 from pytest import fixture, Config, StashKey
 from yaml.parser import ParserError
 from api_wrapper.address_checking_service_client import AddressCheckingServiceClient
