@@ -2,8 +2,6 @@ import logging
 import requests
 
 logger = logging.getLogger(__name__)
-# urllib3 has its own log, it's not very informative on DEBUG level but clutters the test log
-logging.getLogger('urllib3').setLevel(logging.ERROR)
 
 
 class APIAgent(requests.Session):
@@ -40,8 +38,8 @@ class APIAgent(requests.Session):
         logger.debug('Response code: %s', response.status_code)
         logger.debug('Response headers: %s', response.headers)
 
-        if response.raw:
-            logger.debug('Response body: %s', response.raw)
+        if response.text:
+            logger.debug('Response body: %s', response.text)
 
         return response
 

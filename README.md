@@ -40,7 +40,8 @@ deactivate virtual environment
 
 To execute test manually run
 
-    pytest -vvl test.py --config=config.yaml
+    pytest -vvl test.py --config=config.yaml --log-level=debug
 
 Where -vv is for verbose reporting. -l for displaying local variables in the report in case of test failure. --config -
-path to the config file.
+path to the config file. --log-level=debug to display detailed information about HTTP requests made duing the test 
+in case of failure.

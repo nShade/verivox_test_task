@@ -20,8 +20,8 @@ def test_get_cities(postcode, cities, api_client):
     THEN  The service returns list of cities {cities} to which this postcode area belongs
     """
     resp = api_client.get_cities(postcode=postcode)
-    assert resp.status_code == HTTPStatus.OK
-    assert resp.json() == {'Cities': cities}
+    assert resp.status_code == HTTPStatus.OK, 'Response code is not as expected'
+    assert resp.json() == {'Cities': cities}, 'Response is not as expected'
 
 
 def test_get_cities_not_found(api_client):
@@ -32,8 +32,8 @@ def test_get_cities_not_found(api_client):
     """
     INVALID_POSTCODE = '22333'
     resp = api_client.get_cities(postcode=INVALID_POSTCODE)
-    assert resp.status_code == HTTPStatus.NOT_FOUND
-    assert resp.content == b''
+    assert resp.status_code == HTTPStatus.NOT_FOUND, 'Response code is not as expected'
+    assert resp.content == b'', 'Response is not as expected'
 
 
 @mark.parametrize('postcode, city', [
@@ -49,5 +49,5 @@ def test_get_streets(postcode, city, streets, api_client):
     THEN  The service returns list of streets {streets} located in this postcode area and city
     """
     resp = api_client.get_streets(postcode=postcode, city=city)
-    assert resp.status_code == HTTPStatus.OK
-    assert resp.json() == {'Streets': streets}
+    assert resp.status_code == HTTPStatus.OK, 'Response code is not as expected'
+    assert resp.json() == {'Streets': streets}, 'Response is not as expected'
