@@ -17,8 +17,11 @@ jobs:
         pip install -r requirements.txt
     - name: Run tests
       run: pytest -vvl test.py --config=config.yaml --junitxml=report.xml
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-      if: always()
+    - name: Test Report
+      uses: phoenix-actions/test-reporting@v8
+      id: test-report
+      if: success() || failure()
       with:
-         files: report.xml
+        name: report
+        path: report.xml
+        reporter: jest-junit
