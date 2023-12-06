@@ -15,21 +15,23 @@ def streets(request: FixtureRequest, config):
 ])
 def test_get_cities(postcode, cities, api_client):
     """
-    GIVEN the address checking service endpoint: https://service.verivox.de/geo/latestv2/cities/POSTCODE
-    WHEN I request the cities for postcode {10409}
-         https://service.verivox.de/geo/latestv2/cities/10409/
-    THEN I should receive a response with only one city: Berlin
+    GIVEN Address checking service
+    WHEN  User requests from the service cities by valid postcode {postcode}
+    THEN  The service returns list of cities {cities} to which this postcode area belongs
     """
     resp = api_client.get_cities(postcode=postcode)
     assert resp.status_code == HTTPStatus.OK
     assert resp.json() == {'Cities': cities}
 
 
-@mark.parametrize('postcode', [
-    '22333'
-])
-def test_get_cities_not_found(postcode, api_client):
-    resp = api_client.get_cities(postcode=postcode)
+def test_get_cities_not_found(api_client):
+    """
+    GIVEN Address checking service
+    WHEN  User requests from the service cities by invalid postcode {postcode}
+    THEN  The service returns HTTP code 404
+    """
+    INVALID_POSTCODE = '22333'
+    resp = api_client.get_cities(postcode=INVALID_POSTCODE)
     assert resp.status_code == HTTPStatus.NOT_FOUND
     assert resp.content == b''
 
@@ -42,10 +44,9 @@ def test_get_cities_not_found(postcode, api_client):
 ])
 def test_get_streets(postcode, city, streets, api_client):
     """
-    GIVEN the address checking service endpoint: https://service.verivox.de/geo/latestv2/cities/
-    WHEN I request the streets for {Berlin} postcode {10409}
-            https://service.verivox.de/geo/latestv2/cities/10409/Berlin/streets
-    THEN I should receive a response with 29 streets
+    GIVEN Address checking service
+    WHEN  User requests from the service streets by valid postcode {postcode} and city name {city}
+    THEN  The service returns list of streets {streets} located in this postcode area and city
     """
     resp = api_client.get_streets(postcode=postcode, city=city)
     assert resp.status_code == HTTPStatus.OK
