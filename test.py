@@ -17,7 +17,7 @@ def test_get_cities(postcode, cities, api_client):
     resp = api_client.get_cities(postcode=postcode)
     assert resp.status_code == HTTPStatus.OK, 'Response code is not as expected'
     assert 'application/json' in resp.headers.get('Content-Type', ''), 'Content type is not as expected'
-    assert resp.json() == {'Cities': cities}, 'Response is not as expected'
+    assert_json(resp.json(), {'Cities': cities}, 'Response is not as expected')
 
 
 def test_get_cities_not_found(api_client):
