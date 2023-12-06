@@ -4,13 +4,6 @@ from http import HTTPStatus
 from assertions.assert_json import assert_json
 
 
-@fixture
-def streets(request: FixtureRequest, config):
-    postcode = request.getfixturevalue('postcode')
-    city = request.getfixturevalue('city')
-    return config['streets'][int(postcode)][city]
-
-
 @mark.parametrize('postcode, cities', [
     ('10409', ['Berlin']),
     ('77716', ['Fischerbach', 'Haslach', 'Hofstetten']),
@@ -38,6 +31,16 @@ def test_get_cities_not_found(api_client):
     assert resp.status_code == HTTPStatus.NOT_FOUND, 'Response code is not as expected'
     assert resp.headers.get('Content-Type', '') == '', 'Content type is not as expected'
     assert resp.content == b'', 'Response is not as expected'
+
+
+@fixture
+def streets(request: FixtureRequest, config):
+    """
+    Loading expected streets from configuration file for `test_get_streets`
+    """
+    postcode = request.getfixturevalue('postcode')
+    city = request.getfixturevalue('city')
+    return config['streets'][int(postcode)][city]
 
 
 @mark.parametrize('postcode, city', [
