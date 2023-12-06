@@ -1,0 +1,24 @@
+name: Run Tests
+
+on: workflow_dispatch
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v4.7.0
+      with:
+        python-version: 3.11
+        cache: pip
+    - name: Set up dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run tests
+      run: pytest -vvl test.py --config=config.yaml --junitxml=report.xml
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2.9.0
+      if: always()
+      with:
+         files: report.xml
