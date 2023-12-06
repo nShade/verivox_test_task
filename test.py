@@ -6,12 +6,7 @@ from http import HTTPStatus
 def streets(request: FixtureRequest, config):
     postcode = request.getfixturevalue('postcode')
     city = request.getfixturevalue('city')
-
-    return next((c['streets']
-                 for c in next((p['cities']
-                                for p in config['postcodes']
-                                if str(p['value']) == str(postcode)))
-                 if c['name'] == city))
+    return config['streets'][int(postcode)][city]
 
 
 @mark.parametrize('postcode, cities', [
