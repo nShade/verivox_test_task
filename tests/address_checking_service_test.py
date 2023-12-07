@@ -2,6 +2,7 @@ from pytest import mark, fixture, FixtureRequest
 from http import HTTPStatus
 
 from assertions.assert_json import assert_json
+from utils.test_data_loader import load_test_data
 
 
 @mark.parametrize('postcode, cities', [
@@ -33,14 +34,22 @@ def test_get_cities_not_found(api_client):
     assert resp.content == b'', 'Response is not as expected'
 
 
-@fixture
-def streets(request: FixtureRequest, config):
+@fixture(scope='session')
+def test_data():
     """
-    Loading expected streets from configuration file for `test_get_streets`
+    Load data for this test from a file
+    """
+    return load_test_data('data/address_checking_serivce.yaml')
+
+
+@fixture
+def streets(request: FixtureRequest, test_data):
+    """
+    Choosing expected streets from test data for `test_get_streets`
     """
     postcode = request.getfixturevalue('postcode')
     city = request.getfixturevalue('city')
-    return config['streets'][int(postcode)][city]
+    return test_data[int(postcode)][city]
 
 
 @mark.parametrize('postcode, city', [

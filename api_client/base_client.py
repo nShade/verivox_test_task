@@ -4,9 +4,9 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-class APIAgent(requests.Session):
+class APIClient(requests.Session):
     """
-    Base API agent class
+    Base API client class
     """
 
     def __init__(self, base_url: str):

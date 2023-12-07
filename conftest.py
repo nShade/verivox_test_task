@@ -1,10 +1,9 @@
 import functools
 import yaml
 from _pytest.config import filename_arg, UsageError
-from deepdiff import DeepDiff
 from pytest import fixture, Config, StashKey
 from yaml.parser import ParserError
-from api_wrapper.address_checking_service_client import AddressCheckingServiceClient
+from api_client.address_checking_service_client import AddressCheckingServiceClient
 
 config_file_key = StashKey["ConfigFile"]()
 
@@ -20,13 +19,17 @@ def pytest_addoption(parser):
     )
 
 
+class ConfigLoadError(Exception):
+    """Error loading configuration file"""
+
+
 class ConfigFilePlugin:
     def __init__(self, path):
         try:
             with open(path, 'r', encoding='utf-8') as config_file:
                 self.config = yaml.safe_load(config_file)
         except (FileNotFoundError, ParserError) as err:
-            raise RuntimeError('Error loading config file') from err
+            raise ConfigLoadError(f'Error loading config file from {path}') from err
 
 
 def pytest_configure(config: Config) -> None:

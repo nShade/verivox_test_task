@@ -1,7 +1,7 @@
-from api_wrapper.agent import APIAgent
+from api_client.base_client import APIClient
 
 
-class AddressCheckingServiceClient(APIAgent):
+class AddressCheckingServiceClient(APIClient):
 
     def get_cities(self, postcode, **kwargs):
         """

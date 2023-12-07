@@ -16,7 +16,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run tests
-      run: pytest -vvl test.py --config=config.yaml --junitxml=report.xml
+      run: pytest -vvl tests/ --config=config.yaml --junitxml=report.xml
     - name: Test Report
       uses: phoenix-actions/test-reporting@v8
       id: test-report
