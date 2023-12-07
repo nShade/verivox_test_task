@@ -1,3 +1,7 @@
+# Dependencies
+
+Test written in python 3 using python [pytest](https://docs.pytest.org/en) framework.
+
 # Before executing tests
 
 ## Requirements
