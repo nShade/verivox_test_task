@@ -60,10 +60,5 @@ def config(pytestconfig: Config):
 
 
 @fixture(scope='session')
-def host(config) -> str:
-    return config['host']
-
-
-@fixture(scope='session')
-def api_client(host) -> AddressCheckingServiceClient:
-    return AddressCheckingServiceClient(host)
+def api_client(config) -> AddressCheckingServiceClient:
+    return AddressCheckingServiceClient(config['host'])
