@@ -15,37 +15,53 @@ To setup tests on Linux/MacOS run
 
     source setup.sh
 
+on Windows
+
+    setup.bat
+
 ## Manual setup
 
 Create virtual environment
 
     python -m venv .venv
 
-Activate virtual environment
+Activate virtual environment on Linux/MacOS
 
     source .venv/bin/activate
+
+Activate virtual environment on Windows
+
+    .venv\Scripts\activate.bat
 
 Install required packages
 
     pip install -r requirements.txt
 
-To deactivate virtual environment run
+To deactivate virtual environment on Linux/MacOS run
 
     deactivate
 
+on Windows
+
+    deactivate.bat
+
 # Executing tests
 
-To automatically execute test run
+To automatically execute test on Linux/MacOS run
 
     source run.sh
 
-The script will activate virtual environment created by `setup.sh` script, run tests, generate html report and
+On Windows
+
+    run.bat
+
+The script will activate virtual environment created by setup script, run tests, generate html report and
 deactivate virtual environment
 
 To execute test manually run
 
-    pytest -vvl test.py --config=config.yaml --log-level=debug
+    pytest -vvl tests --config=config.yaml --log-level=debug
 
 Where -vv is for verbose reporting. -l for displaying local variables in the report in case of test failure. --config -
-path to the config file. --log-level=debug to display detailed information about HTTP requests made duing the test 
+path to the config file. --log-level=debug to display detailed information about HTTP requests made during the test 
 in case of failure.
